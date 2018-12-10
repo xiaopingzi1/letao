@@ -23,19 +23,22 @@
         <form action="">
             <div class="form_box">
                 <div class="mui-input-row">
+                    <input name="username" type="text" placeholder="用户名">
+                </div>
+                <div class="mui-input-row">
                     <input name="mobile" type="text" placeholder="手机号">
                 </div>
                 <div class="mui-input-row">
-                    <input name="pass" type="password" placeholder="密码" class="mui-input-password">
+                    <input name="password" type="password" placeholder="密码" class="mui-input-password">
                     <span class="mui-icon mui-icon-eye"></span>
                 </div>
                 <div class="mui-input-row">
-                    <input name="rePass" type="password" placeholder="确认密码" class="mui-input-password">
+                    <input type="password" placeholder="确认密码" class="mui-input-password">
                     <span class="mui-icon mui-icon-eye"></span>
                 </div>
                 <div class="mui-input-row">
-                    <input name="code" type="text" placeholder="认证码">
-                    <a href="javascript:;" class="btn_getCode mui-btn mui-btn-primary" >获取认证码</a>
+                    <input name="vCode" type="text" placeholder="认证码">
+                    <input type="submit" class="btn_getCode mui-btn mui-btn-primary" value="获取认证码">
                 </div>
                 <input class="mui-btn mui-btn-primary btn_login" value="注册" type="submit">
                 <div class="mui-input-row cz_text">
@@ -55,22 +58,35 @@
 <script src="../res/mui/js/mui.min.js"></script>
 <script src="../js/jquery-2.2.4.min.js"></script>
 <script>
+    // 点击获取验证码，从后台获取验证码
+    $('.btn_getCode').on('click',function() {
+        $.ajax({
+            url:'/api/user/vCode',
+            type:'get',
+            success:function(info) {
+                console.log(info);
+            }
+        })
+        return false;
+    })
+
+
+    // 用户注册部分 点击的时候表单点击也会被提交，所以用submit事件
     $('form').on('submit',function () {
-      var data = $('form').serialize();
+      var data = $(this).serialize();
       $.ajax({
         url:'/api/user/register',
         type:'post',
         data:data,
         success:function(info) {
-          if (info.success) {
-            location.href = '/';
-          } else {
+          alert('注册成功');
+          if (info.success) return location.href = './login.html';
             alert(info.message);
-          }
         }
       })
       return false;
     })
+
 
 </script>
 </body>

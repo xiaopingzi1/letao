@@ -15,70 +15,70 @@
 </head>
 <body>
 <div class="cz_layout">
-    <header class="cz_topBar">
-        <a href="javascript:history.back();" class="icon_back fa fa-arrow-left"></a>
-        <span class="title">商品详情</span>
-        <a href="index.html" class="icon_home fa fa-home"></a>
-    </header>
-    <div class="cz_container ">
-        <div class="mui-scroll-wrapper">
-            <div class="mui-scroll">
-                <div class="cz_banner mui-slider">
-                    <div class="mui-slider-group mui-slider-loop">
-                        <div class="mui-slider-item mui-slider-item-duplicate">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-active">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-active">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                        <div class="mui-slider-item mui-slider-item-duplicate">
-                            <a href="#"><img src="images/product.jpg"></a>
-                        </div>
-                    </div>
-                    <div class="mui-slider-indicator">
-                        <div class="mui-indicator mui-active"></div>
-                        <div class="mui-indicator"></div>
-                    </div>
-                </div>
-                <div class="p_title">
-                    Nike耐克 男式 NIKE AIR MAX 1 PND QS复刻休闲鞋
-                </div>
-                <div class="p_price">
-                    <span class="fold"><span>5.9</span>折</span>
-                    价格：<strong class="present">¥
-                    712.00</strong>
-                    <del class="original">¥1199.0</del>
-                </div>
-                <div class="p_size">
-                    尺码：
-                    <span class="btn_size">38</span>
-                    <span class="btn_size">39</span>
-                    <span class="btn_size">40</span>
-                    <span class="btn_size">41</span>
-                    <span class="btn_size">43</span>
-                    <span class="btn_size">44</span>
-                    <span class="btn_size">45</span>
-                </div>
-                <div class="p_number">
-                    数量：
-                    <span class="jian">-</span><input type="tel"/><span class="jia">+</span>
-                    剩余：0 件
-                </div>
-                <div class="p_detail">
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                    <img data-lazyload="images/detail.jpg"  alt=""/>
-                </div>
-            </div>
+  <header class="cz_topBar">
+      <a href="javascript:history.back();" class="icon_back fa fa-arrow-left"></a>
+      <span class="title">商品详情</span>
+      <a href="index.html" class="icon_home fa fa-home"></a>
+  </header>
+  <div class="cz_container ">
+      <div class="mui-scroll-wrapper">
+          <div class="mui-scroll content">
+          </div>
+      </div>
+  </div>
+</div>
+<script type="text/template" id="tpl">
+  <div class="cz_banner mui-slider">
+    <div class="mui-slider-group mui-slider-loop">
+        <div class="mui-slider-item mui-slider-item-duplicate">
+            <a href="#"><img src="images/product.jpg"></a>
+        </div>
+        <div class="mui-slider-item mui-active">
+            <a href="#"><img src="images/product.jpg"></a>
+        </div>
+        <div class="mui-slider-item mui-active">
+            <a href="#"><img src="images/product.jpg"></a>
+        </div>
+        <div class="mui-slider-item mui-slider-item-duplicate">
+            <a href="#"><img src="images/product.jpg"></a>
         </div>
     </div>
+    <div class="mui-slider-indicator">
+        <div class="mui-indicator mui-active"></div>
+        <div class="mui-indicator"></div>
+    </div>
 </div>
+<div class="p_title">
+   {{proName}}
+</div>
+<div class="p_price">
+    <span class="fold"><span>{{discount}}</span>折</span>
+    价格：<strong class="present">¥
+    {{price}}</strong>
+    <del class="original">{{oldPrice}}.0</del>
+</div>
+<div class="p_size">
+    尺码：
+    {{each size val}}
+    <span class="btn_size">{{val}}</span>
+    {{/each}}
+</div>
+<div class="p_number">
+    数量：
+    <span class="jian">-</span>
+    <input type="tel"/ value="1">
+    <span class="jia">+</span>
+    剩余：{{num}} 件
+</div>
+<div class="p_detail">
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+    <img data-lazyload="images/detail.jpg"  alt=""/>
+  </div>
+</script>
 <div class="p_option">
     <a href="#" class="btn_cart fa fa-shopping-cart"></a>
     <a href="#" class="btn_addCart">加入购物车</a>
@@ -87,10 +87,40 @@
 <script src="res/mui/js/mui.min.js"></script>
 <script src="res/mui/js/mui.lazyload.js"></script>
 <script src="res/mui/js/mui.lazyload.img.js"></script>
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/jquery-2.2.4.min.js"></script>
+<script src="/js/template-web.js"></script>
 <script>
-    mui(function(){
+  // 商品详情
+  // 1 获取地址的Id
+  //拆分字符串获取地址的参数
+  var search = location.search.slice(1);// location.search ?id=1
+  search= search.split('&');
+  var qs = {};
+  for (var i = 0;i<search.length;i++) {
+    var tmp = search[i].split('=');
+    // 将拆分结果存入qs结果当中
+    qs[tmp[0]] = tmp[1];
+  }
+  // 2 发送请求将id传给后端
+  $.ajax({
+    url:'/api/product/queryProductDetail',
+    type:'get',
+    data:{id:qs.id},
+    success:function(info) {
+      console.log(info);
+      // 处理响应的的json数据
+      // 对原始数据进行处理，尺寸和折扣
+      info.size = info.size.split('-');
+      info.discount = (info.price / info.oldPrice * 10).toFixed(1);
+      var html = template('tpl',info);
+      $('.content').html(html);
+    }
+  })
+
+  mui(function(){
         mui('.mui-slider').slider({
-            interval:3000 //自动轮播周期，若为0则不自动播放，默认为0；
+            interval:1000 //自动轮播周期，若为0则不自动播放，默认为0；
         });
         mui('.mui-scroll-wrapper').scroll({
             scrollY: true, //是否竖向滚动

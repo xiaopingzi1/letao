@@ -46,6 +46,22 @@
 <script src="../res/mui/js/mui.min.js"></script>
 <script src="../js/jquery-2.2.4.min.js"></script>
 <script>
+    // 此页面地址如果有url参数，那么登录成功后会跳转至该页面
+    // 如果没用则默认跳转至首页
+    // 1 判断是否有url并且获得url参数的值
+    // 2 根据url实现跳转
+    var search = location.search.slice(1);
+    // 使用正则匹配url
+    var reg = /url=(.+)/;
+    var match = reg.exec(search);
+    // if (match) {
+    //     var url = match[1];
+    // } else {
+    //     var url = '/';
+    // }
+    var url = match && match[1];
+    url = url || '/';
+    
   $('form').on('submit',function() {
     var data = $(this).serialize();
     $.ajax({
@@ -56,13 +72,9 @@
       type:'post',
       data:data,
       success:function (info) {
-        if (info.success) {
-            location.href = '/';
-        }else {
-            
+        if (info.success) return location.href = url;
             $('.a').val('');
             alert(info.message);
-        }
       }
     })
      return false;

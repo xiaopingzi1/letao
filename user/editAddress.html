@@ -6,7 +6,7 @@
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta content="telephone=no" name="format-detection">
-    <title>修改密码</title>
+    <title>收货地址管理</title>
     <link type="image/x-icon" rel="shortcut icon" href="../images/favicon.ico">
     <link rel="stylesheet" href="../res/mui/css/mui.min.css"/>
     <link rel="stylesheet" href="../res/fontAwesome/css/font-awesome.min.css"/>
@@ -14,29 +14,27 @@
     <link rel="stylesheet" href="../css/user.css"/>
 </head>
 <body>
-<div class="cz_layout">
+<div class="cz_layout bgg">
     <header class="cz_topBar">
         <a href="javascript:history.back();" class="icon_back fa fa-arrow-left"></a>
-        <span class="title">修改密码</span>
+        <span class="title">收货地址管理</span>
     </header>
     <div class="cz_container">
-        <form action="">
-          <div class="form_box">
+        <div class="form_box">
             <div class="mui-input-row">
-                <input name="oldPassword" type="password" placeholder="密码" class="mui-input-password reset">
-                <span class="mui-icon mui-icon-eye"></span>
+                <input name="delivery" type="text" placeholder="收货人">
             </div>
             <div class="mui-input-row">
-                <input name="newPassword" type="password" placeholder="确认密码" class="mui-input-password reset">
-                <span class="mui-icon mui-icon-eye"></span>
+                <input name="postCode" type="text" placeholder="邮编">
             </div>
             <div class="mui-input-row">
-                <input name="vCode" type="text" placeholder="认证码" class="reset">
-                <button class="btn_getCode mui-btn mui-btn-primary" >获取认证码</button>
+              <input name="address" type="text" placeholder="省市县">
             </div>
-            <input class="mui-btn mui-btn-primary btn_login" value="确认修改" type="submit">
-          </div>
-        </form>
+            <div class="mui-input-row">
+                <textarea name="address" id="textarea" rows="5" placeholder="多行文本框"></textarea>
+            </div>
+            <a href="index.html" class="mui-btn mui-btn-primary btn_login">确认</a>
+        </div>
     </div>
     <footer class="cz_tabs">
         <a class="tab_home fa fa-home" href="../index.html"><span>首页</span></a>
@@ -48,32 +46,9 @@
 <script src="../res/mui/js/mui.min.js"></script>
 <script src="../js/jquery-2.2.4.min.js"></script>
 <script>
-  // 修改密码
-  $('form').on('submit',function() {
-    var data = $(this).serialize();
-    $.ajax({
-      url:'/api/user/updatePassword',
-      type:'post',
-      data:data,
-      success:function(info) {
-        if (info.success) return location.href = './login.html';
-          $('.reset').val('');
-          alert(info.message);
-      }
-    })
-    return false;
-  })
-  // 获取验证码部分
-  $('.btn_getCode').on('click',function () {
-    $.ajax({
-      url:'/api/user/vCodeForUpdatePassword',
-      type:'get',
-      success:function(info) {
-        console.log(info);
-      }
-    })
-    return false;
-  })
+  
+
+
 </script>
 </body>
 </html>
